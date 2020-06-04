@@ -1,0 +1,41 @@
+library project RTS_Null is
+
+   T := external ("Target", "arm-eabi");
+   Base_Installation_Dir := T & "/lib/gnat/";
+   Default_Prefix        := Base_Installation_Dir & "rts-null";
+
+   for Target use T;
+   for Languages use ("Ada");
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Default_Switches ("Ada") use (
+         "-g",
+         "-gnatp",
+         "-gnatn",
+         "-ffunction-sections", "-fdata-sections");
+   end Compiler;
+
+   package Builder is
+      for Executable_Suffix use ".elf";
+      for Default_Switches ("Ada") use (
+         "-x",
+         "-gnatg", "-gnatyN",
+         "-gnatec=" & RTS_Null'Project_Dir & "restrict.adc");
+   end Builder;
+
+   package Install is
+      for Prefix use Default_Prefix;
+      for Install_Project use "false";
+      for Sources_Subdir use "adainclude";
+      for Lib_Subdir use "adalib";
+   end Install;
+
+   for Runtime ("Ada") use ".";
+   for Source_Dirs use ("adainclude");
+   for Object_Dir use "obj";
+   for Library_Kind use "static";
+   for Library_Name use "gnat";
+   for Library_Dir use "adalib";
+
+end RTS_Null;
