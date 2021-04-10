@@ -1,8 +1,9 @@
 library project RTS_Null is
 
    T := external ("Target", "arm-eabi");
+   C := external ("CPU", "");
    Base_Installation_Dir := T & "/lib/gnat/";
-   Default_Prefix        := Base_Installation_Dir & "rts-null";
+   Default_Prefix        := Base_Installation_Dir & "null";
 
    for Target use T;
    for Languages use ("Ada");
@@ -10,6 +11,7 @@ library project RTS_Null is
 
    package Compiler is
       for Default_Switches ("Ada") use (
+         C,
          "-g",
          "-gnatp",
          "-gnatn",
@@ -20,8 +22,7 @@ library project RTS_Null is
       for Executable_Suffix use ".elf";
       for Default_Switches ("Ada") use (
          "-x",
-         "-gnatg", "-gnatyN",
-         "-gnatec=" & RTS_Null'Project_Dir & "restrict.adc");
+         "-gnatg", "-gnatyN");
    end Builder;
 
    package Install is
