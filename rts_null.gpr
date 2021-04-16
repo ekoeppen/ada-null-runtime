@@ -11,7 +11,7 @@ library project RTS_Null is
 
    case T is
       when "arm-ebi" => C := "-mmcu=cortex-m0";
-      when "msp430-elf" => C := "-mmcu=mps430";
+      when "msp430-elf" => C := "-mcpu=msp430";
       when others => C := "";
    end case;
 
